@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarketMind | Marketing Intelligence</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">M</div>
+            <div>
+                <h2>MarketMind</h2>
+                <span>MARKETING INTELLIGENCE</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="#overview" class="active">
+                <span class="nav-icon">▦</span>
+                <span>Overview</span>
+            </a>
+
+            <a href="#campaigns">
+                <span class="nav-icon">◈</span>
+                <span>Campaigns</span>
+            </a>
+
+            <a href="#insights">
+                <span class="nav-icon">◉</span>
+                <span>Insights</span>
+            </a>
+
+            <a href="#aiSuggestionsSection" class="ai-nav-link">
+                <span class="nav-icon">✦</span>
+                <span>Generative AI</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="sidebar-footer-icon">✦</div>
+            <p>Marketing Analytics</p>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div>
+                <p class="eyebrow">MARKETMIND / ANALYTICS</p>
+                <h1>Marketing Dashboard</h1>
+                <p class="topbar-subtitle">Your campaigns, performance, and insights in one place.</p>
+            </div>
+
+            <div class="topbar-actions">
+                <button id="themeToggle" class="secondary-button" type="button">☾ Theme</button>
+                <label class="upload-button" for="csvFile">↑ Upload CSV</label>
+                <input type="file" id="csvFile" accept=".csv" hidden>
+            </div>
+        </header>
+
+        <section class="welcome-section" id="overview">
+            <div>
+                <p class="eyebrow">OVERVIEW</p>
+                <h2>Campaign Overview</h2>
+                <p>Track your marketing performance and discover what drives results.</p>
+            </div>
+
+            <div class="filter-group">
+                <select id="platformFilter" aria-label="Filter by platform">
+                    <option value="All">All Platforms</option>
+                    <option value="Instagram">Instagram</option>
+                    <option value="Facebook">Facebook</option>
+                    <option value="Google Ads">Google Ads</option>
+                    <option value="LinkedIn">LinkedIn</option>
+                    <option value="Pinterest">Pinterest</option>
+                </select>
+                <input type="date" id="startDate" aria-label="Start date">
+                <input type="date" id="endDate" aria-label="End date">
+            </div>
+        </section>
+
+        <section class="metrics-grid">
+            <article class="metric-card metric-purple">
+                <div class="metric-top">
+                    <p>Total Impressions</p>
+                    <span class="metric-icon">◉</span>
+                </div>
+                <h2 id="impressions">0</h2>
+                <span>Advertisement views</span>
+            </article>
+
+            <article class="metric-card metric-blue">
+                <div class="metric-top">
+                    <p>Total Clicks</p>
+                    <span class="metric-icon">↗</span>
+                </div>
+                <h2 id="clicks">0</h2>
+                <span>Audience interactions</span>
+            </article>
+
+            <article class="metric-card metric-cyan">
+                <div class="metric-top">
+                    <p>Click-Through Rate</p>
+                    <span class="metric-icon">％</span>
+                </div>
+                <h2 id="ctr">0%</h2>
+                <span>Clicks / Impressions</span>
+            </article>
+
+            <article class="metric-card metric-green">
+                <div class="metric-top">
+                    <p>Total Conversions</p>
+                    <span class="metric-icon">✓</span>
+                </div>
+                <h2 id="conversions">0</h2>
+                <span>Completed actions</span>
+            </article>
+
+            <article class="metric-card metric-orange">
+                <div class="metric-top">
+                    <p>Cost Per Conversion</p>
+                    <span class="metric-icon">₹</span>
+                </div>
+                <h2 id="costPerConversion">₹0</h2>
+                <span>Spend / Conversions</span>
+            </article>
+        </section>
+
+        <section class="charts-grid">
+            <article class="chart-card">
+                <div class="section-heading">
+                    <div>
+                        <h3>Campaign Impressions</h3>
+                        <p>Reach across your campaigns</p>
+                    </div>
+                    <span class="chart-label">IMPRESSIONS</span>
+                </div>
+                <canvas id="impressionsChart"></canvas>
+            </article>
+
+            <article class="chart-card">
+                <div class="section-heading">
+                    <div>
+                        <h3>Campaign Clicks</h3>
+                        <p>Audience engagement by campaign</p>
+                    </div>
+                    <span class="chart-label">CLICKS</span>
+                </div>
+                <canvas id="clicksChart"></canvas>
+            </article>
+
+            <article class="chart-card chart-card-wide">
+                <div class="section-heading">
+                    <div>
+                        <h3>Conversions by Platform</h3>
+                        <p>Compare conversion performance</p>
+                    </div>
+                    <span class="chart-label">CONVERSIONS</span>
+                </div>
+                <canvas id="conversionsChart"></canvas>
+            </article>
+        </section>
+
+        <section class="table-section" id="campaigns">
+            <div class="section-heading table-heading">
+                <div>
+                    <p class="eyebrow">CAMPAIGN DATA</p>
+                    <h3>Campaign Performance</h3>
+                    <p>Detailed breakdown of campaign results</p>
+                </div>
+                <input type="search" id="searchInput" placeholder="Search campaigns..." aria-label="Search campaigns">
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Campaign</th>
+                            <th>Platform</th>
+                            <th>Impressions</th>
+                            <th>Clicks</th>
+                            <th>CTR</th>
+                            <th>Conversions</th>
+                            <th>Cost / Conversion</th>
+                        </tr>
+                    </thead>
+                    <tbody id="campaignTable"></tbody>
+                </table>
+            </div>
+
+            <button id="exportButton" class="secondary-button export-button" type="button">↓ Export CSV</button>
+        </section>
+
+        <section class="insights-section" id="insights">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">PERFORMANCE SUMMARY</p>
+                    <h3>Campaign Insights</h3>
+                    <p>Highlights based on your campaign data.</p>
+                </div>
+                <span class="section-icon">◉</span>
+            </div>
+            <div id="insightsContent">
+                Your campaign insights will appear here.
+            </div>
+        </section>
+
+        <section class="insights-section ai-section" id="aiSuggestionsSection">
+            <div class="ai-heading">
+                <div class="ai-heading-icon">✦</div>
+                <div>
+                    <p class="eyebrow">AI-POWERED ANALYSIS</p>
+                    <h3>Generative AI Studio</h3>
+                    <p>Get AI-powered recommendations based on your currently filtered campaign data.</p>
+                </div>
+            </div>
+
+            <button id="aiSuggestionsButton" class="ai-button" type="button">
+                <span>✦</span> Generate AI Suggestions
+            </button>
+
+            <div id="aiSuggestionsStatus" role="status"></div>
+            <div id="aiSuggestionsContent">
+                Your AI suggestions will appear here.
+            </div>
+        </section>
+
+        <footer>
+            <span>MarketMind Marketing Analytics</span>
+        </footer>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
