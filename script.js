@@ -268,11 +268,8 @@ function updateCharts() {
     clicksChart.data.datasets[0].data =
         campaignNames.map(name => campaignTotals[name].clicks);
 
-    const platformTotals = {
-        Instagram: 0,
-        Facebook: 0,
-        "Google Ads": 0
-    };
+    // Build platform totals dynamically from the currently filtered data.
+    const platformTotals = {};
 
     filteredData.forEach(row => {
         platformTotals[row.Platform] =
@@ -474,6 +471,37 @@ function normalizeHeader(header) {
     return header.trim().toLowerCase().replace(/[^a-z0-9]/g, "");
 }
 
+function updatePlatformFilter() {
+    const platformFilter = document.getElementById("platformFilter");
+    if (!platformFilter) return;
+
+    const selectedPlatform = platformFilter.value;
+    const platforms = [...new Set(
+        campaignData
+            .map(row => String(row.Platform || "").trim())
+            .filter(Boolean)
+    )].sort((a, b) => a.localeCompare(b));
+
+    platformFilter.innerHTML = "";
+
+    const allOption = document.createElement("option");
+    allOption.value = "All";
+    allOption.textContent = "All Platforms";
+    platformFilter.appendChild(allOption);
+
+    platforms.forEach(platform => {
+        const option = document.createElement("option");
+        option.value = platform;
+        option.textContent = platform;
+        platformFilter.appendChild(option);
+    });
+
+    platformFilter.value = platforms.includes(selectedPlatform)
+        ? selectedPlatform
+        : "All";
+}
+
+
 function loadCSV(text) {
     const rows = parseCSV(text);
 
@@ -544,6 +572,8 @@ function loadCSV(text) {
 
     campaignData = newData;
 
+    // Rebuild the dropdown using the platforms in the uploaded CSV.
+    updatePlatformFilter();
     document.getElementById("platformFilter").value = "All";
     document.getElementById("startDate").value = "";
     document.getElementById("endDate").value = "";
@@ -680,6 +710,9 @@ function initializeSidebar() {
 // 14. INITIALIZE DASHBOARD
 
 document.addEventListener("DOMContentLoaded", function () {
+
+    // Populate the platform dropdown from the current campaign data.
+    updatePlatformFilter();
 
     // Restore saved theme
     if (localStorage.getItem("marketmindTheme") === "dark") {
